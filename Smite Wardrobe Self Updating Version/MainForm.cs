@@ -20,7 +20,12 @@ namespace Smite_Wardrobe_Self_Updating_Version
             g_powerType = 3, g_class = 4, g_favorCost = 5,
             g_gemsCost = 6, g_releaseDate = 7;
 
+        int godSelected = 0;
+
         List<string> godInfo = new List<string>(); //for info function
+
+        List<List<string>> tableHeadings;
+        List<List<string>> tableContents;
 
         List<string> contents = new List<string>();
         List<string> godNames = new List<string>();
@@ -32,8 +37,58 @@ namespace Smite_Wardrobe_Self_Updating_Version
         List<string> godGemsCost = new List<string>();
         List<string> godReleaseDate = new List<string>();
         List<string> sgGodCodes = new List<string>();
-        List<List<string>> tableHeadings;
-        List<List<string>> tableContents;
+
+
+        private string getGodImageLink(string godName)
+        {
+            // load smiteguru god specific page
+            HtmlWeb web = new HtmlWeb();
+            HtmlAgilityPack.HtmlDocument doc = web.Load(("http://smite.gamepedia.com/" + godName));
+
+            HtmlNode node = doc.DocumentNode.SelectSingleNode("//table[@class='infobox infobox-test']");
+            string nodeString = node.InnerHtml.ToString();
+
+            if(nodeString.IndexOf("?version") > 0)
+            {
+                nodeString = nodeString.Substring(0, nodeString.IndexOf("?version"));
+            }
+
+            nodeString = nodeString.Substring(nodeString.IndexOf("src=") + 5);
+
+            return nodeString;
+        }
+
+        private void godSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if(godSelectedPicBox.Image != null)
+            //godSelectedPicBox.Image.Dispose();
+
+            godSelected = godSelectionComboBox.SelectedIndex;
+
+            godSelectedPicBox.Load(getGodImageLink(godNames[godSelected]).Trim());
+            godSelected = godSelectionComboBox.SelectedIndex;
+        }
+
+        private void godSelectionLeftButton_Click(object sender, EventArgs e)
+        {
+            godSelected--;
+            if (godSelected < 0)
+                godSelected = godNames.Count-1;
+
+            godSelectionComboBox.SelectedIndex = godSelected;
+        }
+
+        private void godSelectionRightButton_Click(object sender, EventArgs e)
+        {
+            godSelected++;
+            if (godSelected > godNames.Count-1)
+                godSelected = 0;
+
+            godSelectionComboBox.SelectedIndex = godSelected;
+
+            Console.WriteLine("God selected: " + godNames[godSelected]);
+            Console.WriteLine("God selected index: " + godNames.IndexOf(godNames[godSelected]));
+        }
 
         private void downloadWebpage()
         {
@@ -150,15 +205,24 @@ namespace Smite_Wardrobe_Self_Updating_Version
             virtualDatabase.Add(godGemsCost);
             virtualDatabase.Add(godReleaseDate);
 
-            foreach(string item in getGodInfo("Ra"))
+            // add all gods to god selection combo box
+            foreach (string godname in godNames)
             {
-                Console.WriteLine(item);
+                godSelectionComboBox.Items.Add(godname);
             }
 
+            godSelectionComboBox.SelectedIndex = godSelected;
+
+
+
+            //Console.Write(getGodImageLink("Ra"));
+
+            //foreach (string item in getGodInfo("Ra"))
+            //{
+            //    Console.WriteLine(item);
+            //}
+
             //Console.WriteLine(getGodInfo("Susano")[g_gemsCost]);
-            Rectangle dimensions = Screen.FromControl(this).Bounds;
-            this.Location = new System.Drawing.Point(10, 10);
-            this.Size = new System.Drawing.Size(dimensions.Width-100, dimensions.Height-100);
 
             Console.WriteLine("There are currently " + godNames.Count + " gods in the database.");
         }
