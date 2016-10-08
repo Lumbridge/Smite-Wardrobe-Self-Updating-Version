@@ -16,7 +16,7 @@ namespace Smite_Wardrobe_Self_Updating_Version
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
 }
