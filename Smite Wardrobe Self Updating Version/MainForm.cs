@@ -14,7 +14,8 @@ namespace Smite_Wardrobe_Self_Updating_Version
 {
     public partial class MainForm : Form
     {
-        List<List<string>> virtualDatabase = new List<List<string>>();
+        List<List<string>> godInformation = new List<List<string>>();
+        List<List<string>> skinInformation = new List<List<string>>();
 
         int g_name = 0, g_pantheon = 1, g_attackType = 2,
             g_powerType = 3, g_class = 4, g_favorCost = 5,
@@ -37,6 +38,82 @@ namespace Smite_Wardrobe_Self_Updating_Version
         List<string> godGemsCost = new List<string>();
         List<string> godReleaseDate = new List<string>();
         List<string> sgGodCodes = new List<string>();
+
+        public string Between(string STR, string FirstString, string LastString)
+        {
+            string FinalString;
+            int Pos1 = STR.IndexOf(FirstString) + FirstString.Length;
+            int Pos2 = STR.IndexOf(LastString);
+            FinalString = STR.Substring(Pos1, Pos2 - Pos1);
+            return FinalString;
+        }
+
+        private void scrapeAllGodSkinsAndSplitInfo()
+        {
+            int column = 0;
+            int row = 0;
+
+            // load god specific page
+            HtmlWeb web = new HtmlWeb();
+            HtmlAgilityPack.HtmlDocument doc = web.Load(("http://smite.gamepedia.com/" + "Agni"));
+
+            //HtmlNode node = doc.DocumentNode.SelectSingleNode("//div[@id='tabber-cd9a3c7a9d4285929fff2cb18867343e']");
+            var nodes = doc.DocumentNode.SelectNodes("//div[contains(@id,'tabber-')]");
+            string nodeString = nodes[1].InnerHtml.ToString();
+            Console.WriteLine(nodeString);
+            //get skin img links
+            string skinImageLink;
+            int index;
+
+            skinImageLink = Between(nodeString, "src=\"", "?version");
+            Console.WriteLine(skinImageLink);
+
+            index = nodeString.IndexOf(skinImageLink);
+            nodeString = (index < 0)
+                ? nodeString
+                : nodeString.Remove(index, skinImageLink.Length);
+
+            skinImageLink = Between(nodeString, "src=\"", "?version");
+            Console.WriteLine(skinImageLink);
+
+            index = nodeString.IndexOf(skinImageLink);
+            nodeString = (index < 0)
+                ? nodeString
+                : nodeString.Remove(index, skinImageLink.Length);
+
+            //get skin release date
+            string releaseDate;
+            
+            //get skin type (standard, exclusive etc)
+            string skinType;
+            
+            //get skin cost
+            string skinCost;
+            
+            //get skin extra info
+            string skinExtraInfo;
+
+        }
+
+            //foreach(string name in godNames)
+            //{
+            //    // load god specific page
+            //    HtmlWeb web = new HtmlWeb();
+            //    HtmlAgilityPack.HtmlDocument doc = web.Load(("http://smite.gamepedia.com/" + name));
+
+            //    HtmlNode node = doc.DocumentNode.SelectSingleNode("//div[@class='tabber tabberlive']");
+            //    string nodeString = node.InnerHtml.ToString();
+
+            //    Console.WriteLine(nodeString);
+
+            //    //if (nodeString.IndexOf("?version") > 0)
+            //    //{
+            //    //    nodeString = nodeString.Substring(0, nodeString.IndexOf("?version"));
+            //    //}
+
+            //    //nodeString = nodeString.Substring(nodeString.IndexOf("src=") + 5);
+            //}
+        //}
 
         private void updateLabels()
         {
@@ -197,14 +274,14 @@ namespace Smite_Wardrobe_Self_Updating_Version
 
             int p = godNames.IndexOf(godName);
             
-            godInfo.Add(virtualDatabase[g_name][p]);
-            godInfo.Add(virtualDatabase[g_pantheon][p]);
-            godInfo.Add(virtualDatabase[g_attackType][p]);
-            godInfo.Add(virtualDatabase[g_powerType][p]);
-            godInfo.Add(virtualDatabase[g_class][p]);
-            godInfo.Add(virtualDatabase[g_favorCost][p]);
-            godInfo.Add(virtualDatabase[g_gemsCost][p]);
-            godInfo.Add(virtualDatabase[g_releaseDate][p]);
+            godInfo.Add(godInformation[g_name][p]);
+            godInfo.Add(godInformation[g_pantheon][p]);
+            godInfo.Add(godInformation[g_attackType][p]);
+            godInfo.Add(godInformation[g_powerType][p]);
+            godInfo.Add(godInformation[g_class][p]);
+            godInfo.Add(godInformation[g_favorCost][p]);
+            godInfo.Add(godInformation[g_gemsCost][p]);
+            godInfo.Add(godInformation[g_releaseDate][p]);
 
             return godInfo;
         }
@@ -220,14 +297,16 @@ namespace Smite_Wardrobe_Self_Updating_Version
             {
                 addPageDataToLists();
 
-                virtualDatabase.Add(godNames);
-                virtualDatabase.Add(godPantheon);
-                virtualDatabase.Add(godAttackType);
-                virtualDatabase.Add(godPowerType);
-                virtualDatabase.Add(godClass);
-                virtualDatabase.Add(godFavorCost);
-                virtualDatabase.Add(godGemsCost);
-                virtualDatabase.Add(godReleaseDate);
+                godInformation.Add(godNames);
+                godInformation.Add(godPantheon);
+                godInformation.Add(godAttackType);
+                godInformation.Add(godPowerType);
+                godInformation.Add(godClass);
+                godInformation.Add(godFavorCost);
+                godInformation.Add(godGemsCost);
+                godInformation.Add(godReleaseDate);
+
+                skinInformation.Add(godNames);
 
                 // add all gods to god selection combo box
                 foreach (string godname in godNames)
@@ -241,12 +320,20 @@ namespace Smite_Wardrobe_Self_Updating_Version
 
                 Console.WriteLine("There are currently " + godNames.Count + " gods in the database.");
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Error, could not connect to online database. Are you connected to the internet?\n\nIf you would like to use the offline version download it from @Lumbridge Github (Offline version requires MS Access installed).");
+                MessageBox.Show("Error, could not connect to online database. Are you connected to the internet?\n\nIf you would like to use the offline version download it from @Lumbridge Github (Offline version requires MS Access installed).\n\n" + ex);
                 Application.Exit();
             }
 
+            try
+            {
+                scrapeAllGodSkinsAndSplitInfo();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error:\n\n" + ex);
+            }
         }
     }
 }
