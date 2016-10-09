@@ -21,15 +21,12 @@ namespace Smite_Wardrobe_Self_Updating_Version
             g_powerType = 3, g_class = 4, g_favorCost = 5,
             g_gemsCost = 6, g_releaseDate = 7;
 
-        int godSelected = 0, godLeftIndex, godRightIndex;
-
         List<string> godInfo = new List<string>(); //for info function
 
         List<List<string>> tableHeadings;
         List<List<string>> tableContents;
 
         List<string> contents = new List<string>();
-        List<string> godNames = new List<string>();
         List<string> godPantheon = new List<string>();
         List<string> godAttackType = new List<string>();
         List<string> godPowerType = new List<string>();
@@ -48,83 +45,84 @@ namespace Smite_Wardrobe_Self_Updating_Version
             return FinalString;
         }
 
-        private void scrapeAllGodSkinsAndSplitInfo()
+        //HtmlWeb web = new HtmlWeb();
+        public List<string> getGodSkins(string godName)
         {
-            int column = 0;
-            int row = 0;
-
-            // load god specific page
+            Variables.skinLinks.Clear();
             HtmlWeb web = new HtmlWeb();
-            HtmlAgilityPack.HtmlDocument doc = web.Load(("http://smite.gamepedia.com/" + "Agni"));
-
-            //HtmlNode node = doc.DocumentNode.SelectSingleNode("//div[@id='tabber-cd9a3c7a9d4285929fff2cb18867343e']");
-            var nodes = doc.DocumentNode.SelectNodes("//div[contains(@id,'tabber-')]");
-            string nodeString = nodes[1].InnerHtml.ToString();
-            Console.WriteLine(nodeString);
-            //get skin img links
-            string skinImageLink;
-            int index;
-
-            skinImageLink = Between(nodeString, "src=\"", "?version");
-            Console.WriteLine(skinImageLink);
-
-            index = nodeString.IndexOf(skinImageLink);
-            nodeString = (index < 0)
-                ? nodeString
-                : nodeString.Remove(index, skinImageLink.Length);
-
-            skinImageLink = Between(nodeString, "src=\"", "?version");
-            Console.WriteLine(skinImageLink);
-
-            index = nodeString.IndexOf(skinImageLink);
-            nodeString = (index < 0)
-                ? nodeString
-                : nodeString.Remove(index, skinImageLink.Length);
-
-            //get skin release date
-            string releaseDate;
+            HtmlAgilityPack.HtmlDocument doc = web.Load(("http://smite.gamepedia.com/" + godName));
+            HtmlNodeCollection nodes = doc.DocumentNode.SelectNodes("//div[contains(@id,'tabber-')]//div[@class='tabbertab']");
+            int numberOfSkins = (nodes.Count - 2), nodeCounter = 2;
             
-            //get skin type (standard, exclusive etc)
-            string skinType;
-            
-            //get skin cost
-            string skinCost;
-            
-            //get skin extra info
-            string skinExtraInfo;
+            for (int i = 0; i < numberOfSkins; i++)
+            {
+                //Console.WriteLine(Between(nodes[nodeCounter].InnerHtml, "src=\"", "?version"));
+                Variables.skinLinks.Add(Between(nodes[nodeCounter].InnerHtml, "src=\"", "?version"));
+                nodeCounter++;
+            }
 
-        }
+            return Variables.skinLinks;
 
-            //foreach(string name in godNames)
+            //int numberOfSkins = 0;
+            //HtmlAgilityPack.HtmlDocument doc;
+            //HtmlNodeCollection nodes;
+            //HtmlWeb web = new HtmlWeb();
+
+            ////Console.WriteLine("There are " + (nodes.Count-2) + " skins for Agni.");
+
+            ////string nodeString = nodes[2].InnerHtml.ToString();
+            ////Console.WriteLine(nodeString);
+
+            //int column = 0, row = 1;
+            //string skinLink;
+            //int nodeCounter = 2;
+            //List<string> skinLinks = new List<string>();
+            //foreach (string god in Variables.godNames.ToList())
             //{
-            //    // load god specific page
-            //    HtmlWeb web = new HtmlWeb();
-            //    HtmlAgilityPack.HtmlDocument doc = web.Load(("http://smite.gamepedia.com/" + name));
 
-            //    HtmlNode node = doc.DocumentNode.SelectSingleNode("//div[@class='tabber tabberlive']");
-            //    string nodeString = node.InnerHtml.ToString();
 
-            //    Console.WriteLine(nodeString);
+            //    nodeCounter = 2;
 
-            //    //if (nodeString.IndexOf("?version") > 0)
-            //    //{
-            //    //    nodeString = nodeString.Substring(0, nodeString.IndexOf("?version"));
-            //    //}
+            //    doc = web.Load(("http://smite.gamepedia.com/" + god));
+            //    nodes = doc.DocumentNode.SelectNodes("//div[contains(@id,'tabber-')]//div[@class='tabbertab']");
 
-            //    //nodeString = nodeString.Substring(nodeString.IndexOf("src=") + 5);
+            //    numberOfSkins = (nodes.Count - 2);
+
+            //    for(int i = 0; i < numberOfSkins; i++)
+            //    {
+            //        skinLink = Between(nodes[nodeCounter].InnerHtml, "src=\"", "?version");
+            //        Console.WriteLine(skinLink);
+
+
+
+            //        nodeCounter++;
+            //        row++;
+            //    }
+
+            //    row = 1;
+            //    column++;
+
+            //    Console.WriteLine(god + " has " + numberOfSkins + " skins.");
+            //    Console.WriteLine("[0][0] = " + skinInformation[0][0] + " [1][0] = " + skinInformation[1][0]);
             //}
-        //}
+        }
 
         private void updateLabels()
         {
-            godNameLabel.Text = "Name: " + getGodInfo(godNames[godSelected])[g_name];
-            godPantheonLabel.Text = "Pantheon: " + getGodInfo(godNames[godSelected])[g_pantheon];
-            godAttackTypeLabel.Text = "Attack Type: " + getGodInfo(godNames[godSelected])[g_attackType];
-            godPowerTypeLabel.Text = "Power Type: " + getGodInfo(godNames[godSelected])[g_powerType];
-            godClassLabel.Text = "Class: " + getGodInfo(godNames[godSelected])[g_class];
-            godFavorCostLabel.Text = "Favor Cost: " + getGodInfo(godNames[godSelected])[g_favorCost];
-            godGemsCostLabel.Text = "Gems Cost: " + getGodInfo(godNames[godSelected])[g_gemsCost];
-            godReleaseDateLabel.Text = "Release Date: " + getGodInfo(godNames[godSelected])[g_releaseDate];
+            godNameLabel.Text = "Name: " + getGodInfo(Variables.godNames[Variables.godSelected])[g_name];
+            godPantheonLabel.Text = "Pantheon: " + getGodInfo(Variables.godNames[Variables.godSelected])[g_pantheon];
+            godAttackTypeLabel.Text = "Attack Type: " + getGodInfo(Variables.godNames[Variables.godSelected])[g_attackType];
+            godPowerTypeLabel.Text = "Power Type: " + getGodInfo(Variables.godNames[Variables.godSelected])[g_powerType];
+            godClassLabel.Text = "Class: " + getGodInfo(Variables.godNames[Variables.godSelected])[g_class];
+            godFavorCostLabel.Text = "Favor Cost: " + getGodInfo(Variables.godNames[Variables.godSelected])[g_favorCost];
+            godGemsCostLabel.Text = "Gems Cost: " + getGodInfo(Variables.godNames[Variables.godSelected])[g_gemsCost];
+            godReleaseDateLabel.Text = "Release Date: " + getGodInfo(Variables.godNames[Variables.godSelected])[g_releaseDate];
+        }
+
+        private void viewSkinsButton_Click(object sender, EventArgs e)
+        {
+            WardrobeForm wf = new WardrobeForm();
+            wf.ShowDialog();
         }
 
         private string getGodImageLink(string godName)
@@ -148,43 +146,43 @@ namespace Smite_Wardrobe_Self_Updating_Version
 
         private void godSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            godSelected = godSelectionComboBox.SelectedIndex;
+            Variables.godSelected = godSelectionComboBox.SelectedIndex;
             
-            if(godSelected == 0)
-                godLeftIndex = godNames.Count - 1;
+            if(Variables.godSelected == 0)
+                Variables.godLeftIndex = Variables.godNames.Count - 1;
             else
-                godLeftIndex = godSelected - 1;
+                Variables.godLeftIndex = Variables.godSelected - 1;
 
-            if(godSelected == godNames.Count - 1)
-                godRightIndex = 0;
+            if(Variables.godSelected == Variables.godNames.Count - 1)
+                Variables.godRightIndex = 0;
             else
-                godRightIndex = godSelected + 1;
+                Variables.godRightIndex = Variables.godSelected + 1;
 
-            leftGodPictureBox.Load(getGodImageLink(godNames[godLeftIndex]).Trim());
-            godSelectedPicBox.Load(getGodImageLink(godNames[godSelected]).Trim());
-            rightGodPictureBox.Load(getGodImageLink(godNames[godRightIndex]).Trim());
+            leftGodPictureBox.Load(getGodImageLink(Variables.godNames[Variables.godLeftIndex]).Trim());
+            godSelectedPicBox.Load(getGodImageLink(Variables.godNames[Variables.godSelected]).Trim());
+            rightGodPictureBox.Load(getGodImageLink(Variables.godNames[Variables.godRightIndex]).Trim());
 
             updateLabels();
         }
 
         private void godSelectionLeftButton_Click(object sender, EventArgs e)
         {
-            godSelected--;
-            if (godSelected < 0)
-                godSelected = godNames.Count-1;
+            Variables.godSelected--;
+            if (Variables.godSelected < 0)
+                Variables.godSelected = Variables.godNames.Count-1;
 
-            godSelectionComboBox.SelectedIndex = godSelected;
+            godSelectionComboBox.SelectedIndex = Variables.godSelected;
 
             updateLabels();
         }
 
         private void godSelectionRightButton_Click(object sender, EventArgs e)
         {
-            godSelected++;
-            if (godSelected > godNames.Count-1)
-                godSelected = 0;
+            Variables.godSelected++;
+            if (Variables.godSelected > Variables.godNames.Count-1)
+                Variables.godSelected = 0;
 
-            godSelectionComboBox.SelectedIndex = godSelected;
+            godSelectionComboBox.SelectedIndex = Variables.godSelected;
 
             updateLabels();
         }
@@ -229,7 +227,7 @@ namespace Smite_Wardrobe_Self_Updating_Version
             // add god names to list 1n+9
             for (int i = 1; i < contents.Count; i += 9)
             {
-                godNames.Add(contents[i]);
+                Variables.godNames.Add(contents[i]);
             }
             // add pantheons to list 2n+9
             for (int i = 2; i < contents.Count; i += 9)
@@ -272,16 +270,16 @@ namespace Smite_Wardrobe_Self_Updating_Version
         {
             godInfo.Clear();
 
-            int p = godNames.IndexOf(godName);
+            int column = Variables.godNames.IndexOf(godName);
             
-            godInfo.Add(godInformation[g_name][p]);
-            godInfo.Add(godInformation[g_pantheon][p]);
-            godInfo.Add(godInformation[g_attackType][p]);
-            godInfo.Add(godInformation[g_powerType][p]);
-            godInfo.Add(godInformation[g_class][p]);
-            godInfo.Add(godInformation[g_favorCost][p]);
-            godInfo.Add(godInformation[g_gemsCost][p]);
-            godInfo.Add(godInformation[g_releaseDate][p]);
+            godInfo.Add(godInformation[g_name][column]);
+            godInfo.Add(godInformation[g_pantheon][column]);
+            godInfo.Add(godInformation[g_attackType][column]);
+            godInfo.Add(godInformation[g_powerType][column]);
+            godInfo.Add(godInformation[g_class][column]);
+            godInfo.Add(godInformation[g_favorCost][column]);
+            godInfo.Add(godInformation[g_gemsCost][column]);
+            godInfo.Add(godInformation[g_releaseDate][column]);
 
             return godInfo;
         }
@@ -297,7 +295,7 @@ namespace Smite_Wardrobe_Self_Updating_Version
             {
                 addPageDataToLists();
 
-                godInformation.Add(godNames);
+                godInformation.Add(Variables.godNames);
                 godInformation.Add(godPantheon);
                 godInformation.Add(godAttackType);
                 godInformation.Add(godPowerType);
@@ -306,34 +304,31 @@ namespace Smite_Wardrobe_Self_Updating_Version
                 godInformation.Add(godGemsCost);
                 godInformation.Add(godReleaseDate);
 
-                skinInformation.Add(godNames);
+                skinInformation.Add(Variables.godNames);
 
                 // add all gods to god selection combo box
-                foreach (string godname in godNames)
+                foreach (string godname in Variables.godNames)
                 {
                     godSelectionComboBox.Items.Add(godname);
                 }
 
-                godSelectionComboBox.SelectedIndex = godSelected;
+                godSelectionComboBox.SelectedIndex = Variables.godSelected;
 
                 updateLabels();
 
-                Console.WriteLine("There are currently " + godNames.Count + " gods in the database.");
+                Console.WriteLine("There are currently " + Variables.godNames.Count + " gods in the database.");
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error, could not connect to online database. Are you connected to the internet?\n\nIf you would like to use the offline version download it from @Lumbridge Github (Offline version requires MS Access installed).\n\n" + ex);
                 Application.Exit();
             }
-
-            try
-            {
-                scrapeAllGodSkinsAndSplitInfo();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error:\n\n" + ex);
-            }
         }
+    }
+    public class Variables
+    {
+        public static int godSelected = 0, godLeftIndex, godRightIndex;
+        public static List<string> godNames = new List<string>();
+        public static List<string> skinLinks = new List<string>();
     }
 }

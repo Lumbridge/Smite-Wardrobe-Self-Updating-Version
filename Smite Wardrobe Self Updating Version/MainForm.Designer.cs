@@ -42,6 +42,7 @@
             this.godFavorCostLabel = new System.Windows.Forms.Label();
             this.godGemsCostLabel = new System.Windows.Forms.Label();
             this.godReleaseDateLabel = new System.Windows.Forms.Label();
+            this.viewSkinsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.godSelectedPicBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftGodPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightGodPictureBox)).BeginInit();
@@ -67,7 +68,7 @@
             // 
             // godSelectionRightButton
             // 
-            this.godSelectionRightButton.Location = new System.Drawing.Point(300, 351);
+            this.godSelectionRightButton.Location = new System.Drawing.Point(299, 351);
             this.godSelectionRightButton.Name = "godSelectionRightButton";
             this.godSelectionRightButton.Size = new System.Drawing.Size(75, 23);
             this.godSelectionRightButton.TabIndex = 2;
@@ -175,11 +176,22 @@
             this.godReleaseDateLabel.TabIndex = 13;
             this.godReleaseDateLabel.Text = "godReleaseDateLabel";
             // 
+            // viewSkinsButton
+            // 
+            this.viewSkinsButton.Location = new System.Drawing.Point(212, 351);
+            this.viewSkinsButton.Name = "viewSkinsButton";
+            this.viewSkinsButton.Size = new System.Drawing.Size(75, 23);
+            this.viewSkinsButton.TabIndex = 14;
+            this.viewSkinsButton.Text = "View Skins";
+            this.viewSkinsButton.UseVisualStyleBackColor = true;
+            this.viewSkinsButton.Click += new System.EventHandler(this.viewSkinsButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 518);
+            this.Controls.Add(this.viewSkinsButton);
             this.Controls.Add(this.godReleaseDateLabel);
             this.Controls.Add(this.godGemsCostLabel);
             this.Controls.Add(this.godFavorCostLabel);
@@ -197,6 +209,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main Form";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.godSelectedPicBox)).EndInit();
@@ -212,7 +225,6 @@
         private System.Windows.Forms.PictureBox godSelectedPicBox;
         private System.Windows.Forms.Button godSelectionLeftButton;
         private System.Windows.Forms.Button godSelectionRightButton;
-        private System.Windows.Forms.ComboBox godSelectionComboBox;
         private System.Windows.Forms.PictureBox leftGodPictureBox;
         private System.Windows.Forms.PictureBox rightGodPictureBox;
         private System.Windows.Forms.Label godNameLabel;
@@ -223,6 +235,8 @@
         private System.Windows.Forms.Label godFavorCostLabel;
         private System.Windows.Forms.Label godGemsCostLabel;
         private System.Windows.Forms.Label godReleaseDateLabel;
+        private System.Windows.Forms.Button viewSkinsButton;
+        public System.Windows.Forms.ComboBox godSelectionComboBox;
     }
 }
 
