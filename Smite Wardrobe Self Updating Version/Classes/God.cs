@@ -34,11 +34,28 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
         /// <param name="GodList"></param>
         /// <param name="SearchName"></param>
         /// <returns></returns>
-        public int GetGodIndex(List<God> GodList, string SearchName)
+        public static int GetGodIndexByName(List<God> GodList, string SearchName)
         {
-            for(int i = 0; i < GodList.Count - 1; i++)
+            for(int i = 0; i < GodList.Count; i++)
             {
                 if (GodList[i].Name == SearchName)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Returns the index of a skin in the skinlist - searched by name
+        /// </summary>
+        /// <param name="GodSkinList"></param>
+        /// <param name="SearchName"></param>
+        /// <returns></returns>
+        public static int GetSkinIndexByName(List<Skin> GodSkinList, string SearchName)
+        {
+            for(int i = 0; i < GodSkinList.Count; i++)
+            {
+                if (GodSkinList[i].Name == SearchName)
                     return i;
             }
 

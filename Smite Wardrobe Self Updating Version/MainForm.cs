@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.IO;
 
 using Smite_Wardrobe_Self_Updating_Version.Classes;
+using static Smite_Wardrobe_Self_Updating_Version.Classes.God;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.Common;
+using System.Threading.Tasks;
 
 namespace Smite_Wardrobe_Self_Updating_Version
 {
@@ -96,6 +99,73 @@ namespace Smite_Wardrobe_Self_Updating_Version
             godFavorCostLabel.Text = "Favor Cost: " + g.FavourCost;
             godGemsCostLabel.Text = "Gems Cost: " + g.GemCost;
             godReleaseDateLabel.Text = "Release Date: " + g.ReleaseDate;
+        }
+
+        private void Button_Save_Click(object sender, EventArgs e)
+        {
+            ///
+            /// Save Config File Function
+            ///
+
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.DefaultExt = ".txt";
+            saveFileDialog1.AddExtension = true;
+            saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            saveFileDialog1.RestoreDirectory = true;
+
+            saveFileDialog1.FileName = "Skin Config";
+
+            var result = saveFileDialog1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                using (StreamWriter writer
+                    = new StreamWriter(saveFileDialog1.FileName))
+                {
+                    foreach(God g in GodList)
+                    {
+                        foreach (Skin s in g.Skins)
+                        {
+                            writer.Write("<" + g.Name + ">" + s.Name + "=" + s.Acquired + "~"+ Environment.NewLine);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Button_Load_Click(object sender, EventArgs e)
+        {
+            ///
+            /// Load Config File Function
+            ///
+
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.DefaultExt = ".txt";
+            openFileDialog1.AddExtension = true;
+            openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            openFileDialog1.RestoreDirectory = true;
+
+            openFileDialog1.FileName = "Skin Config";
+
+            var result = openFileDialog1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                string[] lines = File.ReadAllLines(openFileDialog1.FileName);
+
+                Parallel.ForEach(lines, l =>
+                {
+                    string GodName = GetSubstringByString("<", ">", l);
+                    int GodIndex = GetGodIndexByName(GodList, GodName);
+                    string SkinName = GetSubstringByString(">", "=", l);
+                    int SkinIndex = GetSkinIndexByName(GodList[GodIndex].Skins, SkinName);
+                    string Aquired = GetSubstringByString("=", "~", l);
+
+                    GodList[GodIndex].Skins[SkinIndex].Acquired = bool.Parse(Aquired);
+                });
+            }
         }
     }
 }

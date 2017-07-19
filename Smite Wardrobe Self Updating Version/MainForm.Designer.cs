@@ -43,6 +43,8 @@
             this.godGemsCostLabel = new System.Windows.Forms.Label();
             this.godReleaseDateLabel = new System.Windows.Forms.Label();
             this.viewSkinsButton = new System.Windows.Forms.Button();
+            this.Button_Save = new System.Windows.Forms.Button();
+            this.Button_Load = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.godSelectedPicBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftGodPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightGodPictureBox)).BeginInit();
@@ -187,11 +189,33 @@
             this.viewSkinsButton.UseVisualStyleBackColor = true;
             this.viewSkinsButton.Click += new System.EventHandler(this.viewSkinsButton_Click);
             // 
+            // Button_Save
+            // 
+            this.Button_Save.Location = new System.Drawing.Point(12, 451);
+            this.Button_Save.Name = "Button_Save";
+            this.Button_Save.Size = new System.Drawing.Size(75, 23);
+            this.Button_Save.TabIndex = 15;
+            this.Button_Save.Text = "Save";
+            this.Button_Save.UseVisualStyleBackColor = true;
+            this.Button_Save.Click += new System.EventHandler(this.Button_Save_Click);
+            // 
+            // Button_Load
+            // 
+            this.Button_Load.Location = new System.Drawing.Point(12, 480);
+            this.Button_Load.Name = "Button_Load";
+            this.Button_Load.Size = new System.Drawing.Size(75, 23);
+            this.Button_Load.TabIndex = 16;
+            this.Button_Load.Text = "Load";
+            this.Button_Load.UseVisualStyleBackColor = true;
+            this.Button_Load.Click += new System.EventHandler(this.Button_Load_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 518);
+            this.Controls.Add(this.Button_Load);
+            this.Controls.Add(this.Button_Save);
             this.Controls.Add(this.viewSkinsButton);
             this.Controls.Add(this.godReleaseDateLabel);
             this.Controls.Add(this.godGemsCostLabel);
@@ -238,6 +262,8 @@
         private System.Windows.Forms.Label godReleaseDateLabel;
         private System.Windows.Forms.Button viewSkinsButton;
         public System.Windows.Forms.ComboBox godSelectionComboBox;
+        private System.Windows.Forms.Button Button_Save;
+        private System.Windows.Forms.Button Button_Load;
     }
 }
 
