@@ -53,6 +53,7 @@
             this.godSelectedPicBox.Location = new System.Drawing.Point(125, 12);
             this.godSelectedPicBox.Name = "godSelectedPicBox";
             this.godSelectedPicBox.Size = new System.Drawing.Size(250, 333);
+            this.godSelectedPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.godSelectedPicBox.TabIndex = 0;
             this.godSelectedPicBox.TabStop = false;
             // 

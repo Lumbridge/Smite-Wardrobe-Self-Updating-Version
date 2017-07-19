@@ -8,46 +8,41 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using static Smite_Wardrobe_Self_Updating_Version.Classes.Common;
+
 namespace Smite_Wardrobe_Self_Updating_Version
 {
     public partial class WardrobeForm : Form
     {
+        private MainForm _MainFormHandle = new MainForm();
         List<PictureBox> picBoxes = new List<PictureBox>();
 
-        public WardrobeForm()
+        public WardrobeForm(MainForm mf)
         {
             InitializeComponent();
+
+            _MainFormHandle = mf;
         }
 
         private void WardrobeForm_Load(object sender, EventArgs e)
         {
-            MainForm mf = new MainForm();
+            int rows = GodList[SelectedCenter].Skins.Count / 5 + 1;
 
-            picBoxes.Add(pictureBox1);
-            picBoxes.Add(pictureBox2);
-            picBoxes.Add(pictureBox3);
-            picBoxes.Add(pictureBox4);
-            picBoxes.Add(pictureBox5);
-            picBoxes.Add(pictureBox6);
-            picBoxes.Add(pictureBox7);
-            picBoxes.Add(pictureBox8);
-            picBoxes.Add(pictureBox9);
-            picBoxes.Add(pictureBox10);
-            picBoxes.Add(pictureBox11);
-            picBoxes.Add(pictureBox12);
-            picBoxes.Add(pictureBox13);
-            picBoxes.Add(pictureBox14);
-            picBoxes.Add(pictureBox15);
-            picBoxes.Add(pictureBox16);
-            picBoxes.Add(pictureBox17);
-            picBoxes.Add(pictureBox18);
+            write(rows.ToString());
 
-            this.Size = new Size(mf.getGodSkins(Variables.godNames[Variables.godSelected]).Count * 140, 225);
+            Size = new Size(170 * 5, rows * 225);
 
-            for(int i = 0; i < mf.getGodSkins(Variables.godNames[Variables.godSelected]).Count; i++)
+            for (int i = 0; i < GodList[SelectedCenter].Skins.Count; i++)
             {
-                picBoxes[i].Load(Variables.skinLinks[i]);
+                picBoxes.Add(new PictureBox() { Size = new Size(160, 200), SizeMode = PictureBoxSizeMode.StretchImage });
+                flowLayoutPanel1.Controls.Add(picBoxes[i]);
+                picBoxes[i].Load(GodList[SelectedCenter].SkinLinks[i]);
             }
+
+            //MinimumSize = new Size(Width, Height);
+            //MaximumSize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            //AutoSize = true;
+            //AutoSizeMode = AutoSizeMode.GrowAndShrink;
         }
     }
 }
