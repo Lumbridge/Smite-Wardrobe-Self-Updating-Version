@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Net;
 
 namespace Smite_Wardrobe_Self_Updating_Version.Classes
 {
@@ -13,9 +15,25 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
         public string FavourCost { get; set; }
         public string GemCost { get; set; }
         public string ReleaseDate { get; set; }
-        public List<string> Skins { get; set; }
-        public List<string> SkinLinks { get; set; }
+        public List<Skin> Skins { get; set; }
 
+        public static Image GetSkinImageColour(string SkinLink)
+        {
+            var request = WebRequest.Create(SkinLink);
+
+            using (var response = request.GetResponse())
+            using (var stream = response.GetResponseStream())
+            {
+                return Bitmap.FromStream(stream);
+            }
+        }
+
+        /// <summary>
+        /// Returns the index of a god in the godlist - searched by name
+        /// </summary>
+        /// <param name="GodList"></param>
+        /// <param name="SearchName"></param>
+        /// <returns></returns>
         public int GetGodIndex(List<God> GodList, string SearchName)
         {
             for(int i = 0; i < GodList.Count - 1; i++)
@@ -27,6 +45,10 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
             return -1;
         }
 
+        /// <summary>
+        /// Writes information about the god to the console
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             Console.WriteLine("{0,15}{1,9}{2,7}{3,9}{4,9}{5,5}{6,5}{7,11}",

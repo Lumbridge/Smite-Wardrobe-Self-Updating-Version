@@ -28,24 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.WardrobeFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(171, 86);
-            this.flowLayoutPanel1.TabIndex = 18;
+            this.WardrobeFlowLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.WardrobeFlowLayout.Location = new System.Drawing.Point(0, 0);
+            this.WardrobeFlowLayout.Name = "flowLayoutPanel1";
+            this.WardrobeFlowLayout.Size = new System.Drawing.Size(499, 375);
+            this.WardrobeFlowLayout.TabIndex = 18;
             // 
             // WardrobeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(171, 86);
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.ClientSize = new System.Drawing.Size(499, 375);
+            this.Controls.Add(this.WardrobeFlowLayout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "WardrobeForm";
@@ -58,6 +59,6 @@
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel WardrobeFlowLayout;
     }
 }

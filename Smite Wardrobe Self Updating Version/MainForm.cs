@@ -1,33 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using HtmlAgilityPack;
-using System.Net;
 
 using Smite_Wardrobe_Self_Updating_Version.Classes;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.Common;
-using static Smite_Wardrobe_Self_Updating_Version.Classes.ParseMethods;
 
 namespace Smite_Wardrobe_Self_Updating_Version
 {
     public partial class MainForm : Form
     {
-        private void updateLabels(God g)
+        public MainForm()
         {
-            godNameLabel.Text = "Name: " + g.Name;
-            godPantheonLabel.Text = "Pantheon: " + g.Pantheon;
-            godAttackTypeLabel.Text = "Attack Type: " + g.AttackType;
-            godPowerTypeLabel.Text = "Power Type: " + g.PowerType;
-            godClassLabel.Text = "Class: " + g.Class;
-            godFavorCostLabel.Text = "Favor Cost: " + g.FavourCost;
-            godGemsCostLabel.Text = "Gems Cost: " + g.GemCost;
-            godReleaseDateLabel.Text = "Release Date: " + g.ReleaseDate;
+            InitializeComponent();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            // Create the loading form instance
+            Loading_Form l = new Loading_Form();
+            l.ShowDialog();
+
+            // check that all gods have been parsed by the parser
+            if (GodsParsed < GodList.Count)
+            {
+                MessageBox.Show("Could not parse all skins, exitting.");
+                Application.Exit();
+            }
+
+            // add all gods to god selection combo box
+            foreach (var g in GodList)
+                godSelectionComboBox.Items.Add(g.Name);
+
+            // set a selected index
+            godSelectionComboBox.SelectedIndex = 0;
+
+            // update the god information labels
+            UpdateLabels(GodList[0]);
         }
 
         private void viewSkinsButton_Click(object sender, EventArgs e)
@@ -38,77 +45,57 @@ namespace Smite_Wardrobe_Self_Updating_Version
 
         private void godSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectedCenter = godSelectionComboBox.SelectedIndex;
+            SelectedGodIndex = godSelectionComboBox.SelectedIndex;
 
-            if (SelectedCenter == 0)
+            if (SelectedGodIndex == 0)
                 SelectedLeft = GodList.Count - 1;
             else
-                SelectedLeft = SelectedCenter - 1;
+                SelectedLeft = SelectedGodIndex - 1;
 
-            if (SelectedCenter == GodList.Count - 1)
+            if (SelectedGodIndex == GodList.Count - 1)
                 SelectedRight = 0;
             else
-                SelectedRight = SelectedCenter + 1;
+                SelectedRight = SelectedGodIndex + 1;
 
-            leftGodPictureBox.Load(GodList[SelectedLeft].SkinLinks[0]);
-            godSelectedPicBox.Load(GodList[godSelectionComboBox.SelectedIndex].SkinLinks[0]);
-            rightGodPictureBox.Load(GodList[SelectedRight].SkinLinks[0]);
+            leftGodPictureBox.Load(GodList[SelectedLeft].Skins[0].ImageLink);
+            godSelectedPicBox.Load(GodList[godSelectionComboBox.SelectedIndex].Skins[0].ImageLink);
+            rightGodPictureBox.Load(GodList[SelectedRight].Skins[0].ImageLink);
 
-            updateLabels(GodList[godSelectionComboBox.SelectedIndex]);
+            UpdateLabels(GodList[godSelectionComboBox.SelectedIndex]);
         }
 
         private void godSelectionLeftButton_Click(object sender, EventArgs e)
         {
-            SelectedCenter--;
-            if (SelectedCenter < 0)
-                SelectedCenter = GodList.Count - 1;
+            SelectedGodIndex--;
+            if (SelectedGodIndex < 0)
+                SelectedGodIndex = GodList.Count - 1;
 
-            godSelectionComboBox.SelectedIndex = SelectedCenter;
+            godSelectionComboBox.SelectedIndex = SelectedGodIndex;
 
-            updateLabels(GodList[godSelectionComboBox.SelectedIndex]);
+            UpdateLabels(GodList[godSelectionComboBox.SelectedIndex]);
         }
 
         private void godSelectionRightButton_Click(object sender, EventArgs e)
         {
-            SelectedCenter++;
-            if (SelectedCenter > GodList.Count - 1)
-                SelectedCenter = 0;
+            SelectedGodIndex++;
+            if (SelectedGodIndex > GodList.Count - 1)
+                SelectedGodIndex = 0;
 
-            godSelectionComboBox.SelectedIndex = SelectedCenter;
+            godSelectionComboBox.SelectedIndex = SelectedGodIndex;
 
-            updateLabels(GodList[godSelectionComboBox.SelectedIndex]);
+            UpdateLabels(GodList[godSelectionComboBox.SelectedIndex]);
         }
 
-        public MainForm()
+        private void UpdateLabels(God g)
         {
-            InitializeComponent();
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                SmiteWikiGodTable = GetSmiteWikiGodTable();
-                GodList = SmiteWikiGodTableToList(SmiteWikiGodTable);
-                GodList = ParseAllGodSkinNamesAndLinks(GodList);
-                
-                // add all gods to god selection combo box
-                foreach (var g in GodList)
-                {
-                    godSelectionComboBox.Items.Add(g.Name);
-                }
-
-                godSelectionComboBox.SelectedIndex = 0;
-
-                updateLabels(GodList[0]);
-
-                Console.WriteLine("There are currently " + GodList.Count + " gods in the database.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error, could not connect to online database. Are you connected to the internet?\n\nIf you would like to use the offline version download it from @Lumbridge Github (Offline version requires MS Access installed).\n\n" + ex);
-                Application.Exit();
-            }
+            godNameLabel.Text = "Name: " + g.Name;
+            godPantheonLabel.Text = "Pantheon: " + g.Pantheon;
+            godAttackTypeLabel.Text = "Attack Type: " + g.AttackType;
+            godPowerTypeLabel.Text = "Power Type: " + g.PowerType;
+            godClassLabel.Text = "Class: " + g.Class;
+            godFavorCostLabel.Text = "Favor Cost: " + g.FavourCost;
+            godGemsCostLabel.Text = "Gems Cost: " + g.GemCost;
+            godReleaseDateLabel.Text = "Release Date: " + g.ReleaseDate;
         }
     }
 }

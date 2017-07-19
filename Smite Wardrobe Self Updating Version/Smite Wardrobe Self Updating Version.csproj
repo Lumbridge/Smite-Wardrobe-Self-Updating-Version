@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C979838A-40D2-4109-9387-4E2A1F3E3616}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Smite_Wardrobe_Self_Updating_Version</RootNamespace>
     <AssemblyName>Smite Wardrobe Self Updating Version</AssemblyName>
@@ -56,6 +56,14 @@
     <Compile Include="Classes\Common.cs" />
     <Compile Include="Classes\God.cs" />
     <Compile Include="Classes\ParseMethods.cs" />
+    <Compile Include="Classes\Skin.cs" />
+    <Compile Include="Classes\SkinPictureBox.cs" />
+    <Compile Include="Loading Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Loading Form.Designer.cs">
+      <DependentUpon>Loading Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +78,9 @@
     <Compile Include="WardrobeForm.Designer.cs">
       <DependentUpon>WardrobeForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Loading Form.resx">
+      <DependentUpon>Loading Form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -99,9 +110,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

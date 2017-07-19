@@ -79,7 +79,7 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
         /// </summary>
         /// <param name="GodName"></param>
         /// <returns></returns>
-        public static List<string> GetGodSkinList(string GodName)
+        public static List<Skin> GetGodSkinList(string GodName)
         {
             List<string> WordsToRemove = new List<string>()
             {
@@ -91,20 +91,24 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
                 "Consumable"
             };
 
-            List<string> Skins = new List<string>();
+            // create temporary list to store found skins
+            List<Skin> Skins = new List<Skin>();
 
+            // edit the god name string to work properly in a link format
             if (GodName.Contains(" "))
                 GodName = GodName.Replace(" ", "_");
-
             if (GodName.Contains("'"))
                 GodName = GodName.Replace("'", "%27");
 
+            // create new webclient and htmldocument to save the page content
             WebClient webClient = new WebClient();
             string page = webClient.DownloadString("http://smite.gamepedia.com/" + GodName);
-
             HtmlDocument doc = new HtmlDocument();
+
+            // load the page data
             doc.LoadHtml(page);
 
+            // parse through html nodes to find all skin names
             foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@id='global-wrapper']"))
             {
                 foreach (HtmlNode node2 in node.SelectNodes(".//div[@id='bodyContent']"))
@@ -117,54 +121,26 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
                             {
                                 string innertext = node5.InnerText;
 
-                                // Check for ' code and replace it
+                                // replace any encoding errors in the god name
                                 if (innertext.Contains("&#039;"))
                                     innertext = node5.InnerText.Replace("&#039;", "'");
                                 if (innertext.Contains("&amp"))
                                     innertext = node5.InnerText.Replace("&amp;", "&");
 
+                                // check if we've located any of our banned words and if not then add the name to the skin list
                                 if (!WordsToRemove.Contains(node5.InnerText))
-                                    Skins.Add(innertext);
+                                    Skins.Add(new Skin() { Name = innertext });
                             }
                         }
                     }
                 }
             }
 
-            return Skins;
-        }
+            // this counter matches the skin link to the skin name
+            // and is incremented each time a new link is located
+            int counter = 0;
 
-        /// <summary>
-        /// Retrieves a list of strings containing all skins for that specific god
-        /// </summary>
-        /// <param name="GodName"></param>
-        /// <returns></returns>
-        public static List<string> GetGodSkinLinkList(string GodName)
-        {
-            List<string> WordsToRemove = new List<string>()
-            {
-                "Starter",
-                "Core",
-                "Damage",
-                "Defensive",
-                "Relic",
-                "Consumable"
-            };
-
-            List<string> SkinLinks = new List<string>();
-
-            if (GodName.Contains(" "))
-                GodName = GodName.Replace(" ", "_");
-
-            if (GodName.Contains("'"))
-                GodName = GodName.Replace("'", "%27");
-
-            WebClient webClient = new WebClient();
-            string page = webClient.DownloadString("http://smite.gamepedia.com/" + GodName);
-
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(page);
-
+            // parse through html nodes until we find the skin image links
             foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//center"))
             {
                 foreach (HtmlNode node2 in node.SelectNodes(".//div[@class='tabbertab']"))
@@ -175,30 +151,22 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
                         {
                             string innertext = node3.InnerHtml;
 
+                            // check that the inner text of the html node isn't empty
+                            // and if it isn't then we get the substring between two static substrings
+                            // which gives us the image link
                             if (innertext.Length > 0)
                                 innertext = GetSubstringByString("src=\"", "\" width", innertext);
 
-                            SkinLinks.Add(innertext);
+                            // add the image link to the skin object in the skin list
+                            Skins[counter].ImageLink = innertext;
+                            // increment the counter so we don't override the skin link we just added
+                            counter++;
                         }
                     }
                 }
             }
 
-            return SkinLinks;
-        }
-
-        public static List<God> ParseAllGodSkinNamesAndLinks(List<God> GodList)
-        {
-            // parse all god skin names and links
-            Parallel.ForEach(GodList, g =>
-            {
-                g.Skins = GetGodSkinList(g.Name);
-                g.SkinLinks = GetGodSkinLinkList(g.Name);
-
-                //Console.WriteLine("{0} skins parsed for {1}.", g.Skins.Count, g.Name);
-            });
-
-            return GodList;
+            return Skins;
         }
     }
 }
