@@ -58,7 +58,7 @@ namespace Smite_Wardrobe_Self_Updating_Version
                 SelectedRight = SelectedGodIndex + 1;
 
             leftGodPictureBox.Load(GodList[SelectedLeft].Skins[0].ImageLink);
-            godSelectedPicBox.Load(GodList[godSelectionComboBox.SelectedIndex].Skins[0].ImageLink);
+            godSelectedPicBox.Load(GodList[SelectedGodIndex].Skins[0].ImageLink);
             rightGodPictureBox.Load(GodList[SelectedRight].Skins[0].ImageLink);
 
             UpdateLabels(GodList[godSelectionComboBox.SelectedIndex]);

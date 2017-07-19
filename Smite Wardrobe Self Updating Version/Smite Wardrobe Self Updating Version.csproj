@@ -57,7 +57,6 @@
     <Compile Include="Classes\God.cs" />
     <Compile Include="Classes\ParseMethods.cs" />
     <Compile Include="Classes\Skin.cs" />
-    <Compile Include="Classes\SkinPictureBox.cs" />
     <Compile Include="Loading Form.cs">
       <SubType>Form</SubType>
     </Compile>
