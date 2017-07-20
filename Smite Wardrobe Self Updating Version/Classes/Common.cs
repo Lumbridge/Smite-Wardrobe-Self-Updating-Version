@@ -8,7 +8,10 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
 {
     class Common
     {
-        public static int GodsParsed = 0;
+        public static List<string> AllAquiredSkinNames = new List<string>();
+        public static List<string> AllAquiredSkinImageLinks = new List<string>();
+
+        public static int GodsParsed = 0, ImagesLoaded = 0, TotalSkins = 0;
 
         public static int
             SelectedLeft = -1,

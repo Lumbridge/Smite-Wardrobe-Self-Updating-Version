@@ -1,6 +1,6 @@
-﻿namespace Smite_Wardrobe_Self_Updating_Version
+﻿namespace Smite_Wardrobe_Self_Updating_Version.Forms
 {
-    partial class WardrobeForm
+    partial class AllSkinsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,28 +31,27 @@
             this.WardrobeFlowLayout = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // WardrobeFlowLayout
             // 
+            this.WardrobeFlowLayout.AutoScroll = true;
             this.WardrobeFlowLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.WardrobeFlowLayout.Location = new System.Drawing.Point(0, 0);
-            this.WardrobeFlowLayout.Name = "flowLayoutPanel1";
-            this.WardrobeFlowLayout.Size = new System.Drawing.Size(499, 375);
-            this.WardrobeFlowLayout.TabIndex = 18;
+            this.WardrobeFlowLayout.Name = "WardrobeFlowLayout";
+            this.WardrobeFlowLayout.Size = new System.Drawing.Size(499, 376);
+            this.WardrobeFlowLayout.TabIndex = 19;
             // 
-            // WardrobeForm
+            // AllSkinsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(499, 375);
+            this.ClientSize = new System.Drawing.Size(499, 376);
             this.Controls.Add(this.WardrobeFlowLayout);
+            this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.MaximizeBox = false;
-            this.Name = "WardrobeForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "WardrobeForm";
-            this.Load += new System.EventHandler(this.WardrobeForm_Load);
+            this.Name = "AllSkinsForm";
+            this.Text = "All Skins";
+            this.Load += new System.EventHandler(this.AllSkinsForm_Load);
             this.ResumeLayout(false);
 
         }

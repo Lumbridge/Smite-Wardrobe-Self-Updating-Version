@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Smite_Wardrobe_Self_Updating_Version
+namespace Smite_Wardrobe_Self_Updating_Version.Forms
 {
     static class Program
     {

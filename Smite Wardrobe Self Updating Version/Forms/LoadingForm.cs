@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Smite_Wardrobe_Self_Updating_Version.Classes;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.Common;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.ParseMethods;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
-namespace Smite_Wardrobe_Self_Updating_Version
+namespace Smite_Wardrobe_Self_Updating_Version.Forms
 {
-    public partial class Loading_Form : Form
+    public partial class LoadingForm : Form
     {
-        public Loading_Form()
+        public LoadingForm()
         {
             InitializeComponent();
 
@@ -39,14 +39,15 @@ namespace Smite_Wardrobe_Self_Updating_Version
             // parse all god skin names and links
             Parallel.ForEach(GodList, g =>
             {
+                Label_Parsing.Text = "Getting skins for: " + g.Name;
+
                 g.Skins = GetGodSkinList(g.Name);
 
                 GodsParsed++;
 
                 ProgressBar_LoadingSkins.Value = GodsParsed;
-                Label_Parsing.Text = "Getting skins for: " + g.Name;
             });
-
+            
             return GodList;
         }
     }

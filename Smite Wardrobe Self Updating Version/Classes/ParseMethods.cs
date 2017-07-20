@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using HtmlAgilityPack;
 
+using static Smite_Wardrobe_Self_Updating_Version.Classes.God;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.Common;
 
 namespace Smite_Wardrobe_Self_Updating_Version.Classes
@@ -154,17 +155,26 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
                             // check that the inner text of the html node isn't empty
                             // and if it isn't then we get the substring between two static substrings
                             // which gives us the image link
-                            if (innertext.Length > 0)
+                            if (innertext.Length > 0 && Skins[counter].Name != "Ragnarok Force X" && Skins[counter].Name != "Demonic Pact")
                                 innertext = GetSubstringByString("src=\"", "\" width", innertext);
+
+                            if (Skins[counter].Name == "Ragnarok Force X")
+                                innertext = "https://hydra-media.cursecdn.com/smite.gamepedia.com/5/50/T_Thor_T5_Mech_Card.png";
+                            else if (Skins[counter].Name == "Demonic Pact")
+                                innertext = "https://hydra-media.cursecdn.com/smite.gamepedia.com/b/b1/T_Anubis_DemonicPact_Stage3.png";
 
                             // add the image link to the skin object in the skin list
                             Skins[counter].ImageLink = innertext;
+
                             // increment the counter so we don't override the skin link we just added
                             counter++;
                         }
                     }
                 }
             }
+
+            if (GodName == "Anubis" || GodName == "Thor")
+                Skins[GetSkinIndexByName(Skins, "Diamond")].ImageLink = Skins[counter - 2].ImageLink; 
 
             return Skins;
         }

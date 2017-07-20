@@ -1,4 +1,4 @@
-﻿namespace Smite_Wardrobe_Self_Updating_Version
+﻿namespace Smite_Wardrobe_Self_Updating_Version.Forms
 {
     partial class MainForm
     {
@@ -45,6 +45,7 @@
             this.viewSkinsButton = new System.Windows.Forms.Button();
             this.Button_Save = new System.Windows.Forms.Button();
             this.Button_Load = new System.Windows.Forms.Button();
+            this.Button_ShowAllSkins = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.godSelectedPicBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftGodPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightGodPictureBox)).BeginInit();
@@ -209,12 +210,23 @@
             this.Button_Load.UseVisualStyleBackColor = true;
             this.Button_Load.Click += new System.EventHandler(this.Button_Load_Click);
             // 
+            // Button_ShowAllSkins
+            // 
+            this.Button_ShowAllSkins.Location = new System.Drawing.Point(408, 470);
+            this.Button_ShowAllSkins.Name = "Button_ShowAllSkins";
+            this.Button_ShowAllSkins.Size = new System.Drawing.Size(84, 36);
+            this.Button_ShowAllSkins.TabIndex = 15;
+            this.Button_ShowAllSkins.Text = "Show All Owned Skins";
+            this.Button_ShowAllSkins.UseVisualStyleBackColor = true;
+            this.Button_ShowAllSkins.Click += new System.EventHandler(this.Button_ShowAllSkins_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 518);
             this.Controls.Add(this.Button_Load);
+            this.Controls.Add(this.Button_ShowAllSkins);
             this.Controls.Add(this.Button_Save);
             this.Controls.Add(this.viewSkinsButton);
             this.Controls.Add(this.godReleaseDateLabel);
@@ -264,6 +276,7 @@
         public System.Windows.Forms.ComboBox godSelectionComboBox;
         private System.Windows.Forms.Button Button_Save;
         private System.Windows.Forms.Button Button_Load;
+        private System.Windows.Forms.Button Button_ShowAllSkins;
     }
 }
 

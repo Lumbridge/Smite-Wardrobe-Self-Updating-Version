@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
-using Smite_Wardrobe_Self_Updating_Version.Classes;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.God;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.Common;
 
-namespace Smite_Wardrobe_Self_Updating_Version
+namespace Smite_Wardrobe_Self_Updating_Version.Forms
 {
     public partial class WardrobeForm : Form
     {
-        private MainForm _MainFormHandle = new MainForm();
-        List<PictureBox> PictureBoxes = new List<PictureBox>();
+        private List<PictureBox> PictureBoxes = new List<PictureBox>();
 
         public WardrobeForm(MainForm mf)
         {
             InitializeComponent();
-
-            _MainFormHandle = mf;
         }
 
         private void WardrobeForm_Load(object sender, EventArgs e)
@@ -29,7 +23,7 @@ namespace Smite_Wardrobe_Self_Updating_Version
             int rows = GodList[SelectedGodIndex].Skins.Count / 5 + 1;
 
             // set the size of the window
-            Size = new Size(170 * 5, rows * 225);
+            ClientSize = new Size(166 * 5, rows * 206);
 
             // loop through however many skins the selected god has
             for (int i = 0; i < GodList[SelectedGodIndex].Skins.Count; i++)

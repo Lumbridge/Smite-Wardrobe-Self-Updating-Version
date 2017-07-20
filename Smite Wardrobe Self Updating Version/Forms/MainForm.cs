@@ -7,7 +7,7 @@ using static Smite_Wardrobe_Self_Updating_Version.Classes.God;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.Common;
 using System.Threading.Tasks;
 
-namespace Smite_Wardrobe_Self_Updating_Version
+namespace Smite_Wardrobe_Self_Updating_Version.Forms
 {
     public partial class MainForm : Form
     {
@@ -19,7 +19,7 @@ namespace Smite_Wardrobe_Self_Updating_Version
         private void MainForm_Load(object sender, EventArgs e)
         {
             // Create the loading form instance
-            Loading_Form l = new Loading_Form();
+            LoadingForm l = new LoadingForm();
             l.ShowDialog();
 
             // check that all gods have been parsed by the parser
@@ -42,8 +42,14 @@ namespace Smite_Wardrobe_Self_Updating_Version
 
         private void viewSkinsButton_Click(object sender, EventArgs e)
         {
-            WardrobeForm wf = new WardrobeForm(this);
-            wf.ShowDialog();
+            WardrobeForm _WardrobeFormHandle = new WardrobeForm(this);
+            _WardrobeFormHandle.ShowDialog();
+        }
+
+        private void Button_ShowAllSkins_Click(object sender, EventArgs e)
+        {
+            AllSkinsForm _AllSkinsFormHandle = new AllSkinsForm();
+            _AllSkinsFormHandle.ShowDialog();
         }
 
         private void godSelectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -89,18 +95,6 @@ namespace Smite_Wardrobe_Self_Updating_Version
             UpdateLabels(GodList[godSelectionComboBox.SelectedIndex]);
         }
 
-        private void UpdateLabels(God g)
-        {
-            godNameLabel.Text = "Name: " + g.Name;
-            godPantheonLabel.Text = "Pantheon: " + g.Pantheon;
-            godAttackTypeLabel.Text = "Attack Type: " + g.AttackType;
-            godPowerTypeLabel.Text = "Power Type: " + g.PowerType;
-            godClassLabel.Text = "Class: " + g.Class;
-            godFavorCostLabel.Text = "Favor Cost: " + g.FavourCost;
-            godGemsCostLabel.Text = "Gems Cost: " + g.GemCost;
-            godReleaseDateLabel.Text = "Release Date: " + g.ReleaseDate;
-        }
-
         private void Button_Save_Click(object sender, EventArgs e)
         {
             ///
@@ -130,6 +124,8 @@ namespace Smite_Wardrobe_Self_Updating_Version
                             writer.Write("<" + g.Name + ">" + s.Name + "=" + s.Acquired + "~"+ Environment.NewLine);
                         }
                     }
+
+                    writer.Close();
                 }
             }
         }
@@ -166,6 +162,18 @@ namespace Smite_Wardrobe_Self_Updating_Version
                     GodList[GodIndex].Skins[SkinIndex].Acquired = bool.Parse(Aquired);
                 });
             }
+        }
+
+        private void UpdateLabels(God g)
+        {
+            godNameLabel.Text = "Name: " + g.Name;
+            godPantheonLabel.Text = "Pantheon: " + g.Pantheon;
+            godAttackTypeLabel.Text = "Attack Type: " + g.AttackType;
+            godPowerTypeLabel.Text = "Power Type: " + g.PowerType;
+            godClassLabel.Text = "Class: " + g.Class;
+            godFavorCostLabel.Text = "Favor Cost: " + g.FavourCost;
+            godGemsCostLabel.Text = "Gems Cost: " + g.GemCost;
+            godReleaseDateLabel.Text = "Release Date: " + g.ReleaseDate;
         }
     }
 }
