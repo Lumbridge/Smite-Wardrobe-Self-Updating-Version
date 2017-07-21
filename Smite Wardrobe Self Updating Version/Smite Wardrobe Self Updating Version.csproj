@@ -63,6 +63,12 @@
     <Compile Include="Forms\AllSkinsForm.Designer.cs">
       <DependentUpon>AllSkinsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\LoadingAllSkinsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoadingAllSkinsForm.Designer.cs">
+      <DependentUpon>LoadingAllSkinsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LoadingForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +91,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\AllSkinsForm.resx">
       <DependentUpon>AllSkinsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoadingAllSkinsForm.resx">
+      <DependentUpon>LoadingAllSkinsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoadingForm.resx">
       <DependentUpon>LoadingForm.cs</DependentUpon>

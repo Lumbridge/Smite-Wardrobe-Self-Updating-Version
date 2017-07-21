@@ -247,7 +247,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Main Form";
+            this.Text = "Smite Wardrobe";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.godSelectedPicBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.leftGodPictureBox)).EndInit();

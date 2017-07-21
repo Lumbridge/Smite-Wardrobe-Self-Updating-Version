@@ -59,6 +59,7 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
 
             for (int i = 0; i < contents.Count; i += 9)
             {
+                // map each element from the table into a god object
                 GodList.Add(new God()
                 {
                     Name = contents[i + 1],
@@ -70,6 +71,8 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
                     GemCost = contents[i + 7],
                     ReleaseDate = contents[i + 8]
                 });
+
+                TotalGods++;
             }
 
             return GodList;
@@ -173,6 +176,7 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
                 }
             }
 
+            // manually add diamond because we manually added the T5 skins for these gods earlier which offsets the counter by 1
             if (GodName == "Anubis" || GodName == "Thor")
                 Skins[GetSkinIndexByName(Skins, "Diamond")].ImageLink = Skins[counter - 2].ImageLink; 
 

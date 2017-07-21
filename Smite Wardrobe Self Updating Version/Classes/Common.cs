@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -8,10 +9,13 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
 {
     class Common
     {
+        public static List<Image> AllAquiredSkinImages = new List<Image>();
         public static List<string> AllAquiredSkinNames = new List<string>();
         public static List<string> AllAquiredSkinImageLinks = new List<string>();
 
-        public static int GodsParsed = 0, ImagesLoaded = 0, TotalSkins = 0;
+        public static int TotalSkins = 0, TotalGods = 0, GodsParsed = 0, ImagesLoaded = 0;
+
+        public static Size CardImageSize = new Size(160, 200);
 
         public static int
             SelectedLeft = -1,
@@ -42,6 +46,11 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
             Console.WriteLine(t);
         }
 
+        /// <summary>
+        /// Returns the image passed in as greyscale
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static Image ConvertToGreyscale(Image source)
         {
             Bitmap temp = new Bitmap(source);
@@ -68,6 +77,30 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
             g.Dispose();
             
             return temp;
+        }
+
+        /// <summary>
+        /// Returns the number of skins marked as acquired in the god list
+        /// </summary>
+        /// <param name="godlist"></param>
+        /// <returns></returns>
+        public static int GetTotalSkinCount(List<God> godlist)
+        {
+            int totalskins = 0;
+
+            Parallel.ForEach(godlist, g =>
+            {
+                Parallel.ForEach(g.Skins, s =>
+                {
+                    if (s.Acquired)
+                    {
+                        // Use interlocked increment to avoid race condition (totalskins++ is not atomic)
+                        Interlocked.Increment(ref totalskins);
+                    }
+                });
+            });
+
+            return totalskins;
         }
     }
 }

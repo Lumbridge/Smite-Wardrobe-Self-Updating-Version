@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using static Smite_Wardrobe_Self_Updating_Version.Classes.God;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.Common;
+using System.Threading.Tasks;
 
 namespace Smite_Wardrobe_Self_Updating_Version.Forms
 {
@@ -29,7 +30,7 @@ namespace Smite_Wardrobe_Self_Updating_Version.Forms
             for (int i = 0; i < GodList[SelectedGodIndex].Skins.Count; i++)
             {
                 // add a new picture box for each skin the god has
-                PictureBoxes.Add(new PictureBox() { Size = new Size(160, 200), SizeMode = PictureBoxSizeMode.StretchImage });
+                PictureBoxes.Add(new PictureBox() { Size = CardImageSize, SizeMode = PictureBoxSizeMode.StretchImage });
 
                 // add the picture box to the flow layout so it's laid out automatically
                 WardrobeFlowLayout.Controls.Add(PictureBoxes[i]);
@@ -43,10 +44,10 @@ namespace Smite_Wardrobe_Self_Updating_Version.Forms
             }
 
             // register a click event for each picture box
-            foreach (var p in PictureBoxes)
+            Parallel.ForEach(PictureBoxes, p =>
             {
                 p.Click += PictureBox_Click;
-            }
+            });
         }
 
         private void PictureBox_Click(object sender, EventArgs e)

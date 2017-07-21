@@ -1,6 +1,6 @@
 ﻿namespace Smite_Wardrobe_Self_Updating_Version.Forms
 {
-    partial class LoadingForm
+    partial class LoadingAllSkinsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -45,11 +45,11 @@
             this.Label_Parsing.AutoSize = true;
             this.Label_Parsing.Location = new System.Drawing.Point(9, 42);
             this.Label_Parsing.Name = "Label_Parsing";
-            this.Label_Parsing.Size = new System.Drawing.Size(100, 13);
+            this.Label_Parsing.Size = new System.Drawing.Size(51, 13);
             this.Label_Parsing.TabIndex = 1;
-            this.Label_Parsing.Text = "Loading God (0/0): ";
+            this.Label_Parsing.Text = "Loading: ";
             // 
-            // LoadingForm
+            // LoadingAllSkinsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -57,11 +57,10 @@
             this.Controls.Add(this.Label_Parsing);
             this.Controls.Add(this.ProgressBar_LoadingSkins);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "LoadingForm";
-            this.Text = "Loading Smite Wardrobe...";
+            this.Name = "LoadingAllSkinsForm";
+            this.Text = "Loading All Owned Skins...";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

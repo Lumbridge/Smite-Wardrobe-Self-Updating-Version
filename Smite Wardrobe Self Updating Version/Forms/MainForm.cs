@@ -25,7 +25,7 @@ namespace Smite_Wardrobe_Self_Updating_Version.Forms
             // check that all gods have been parsed by the parser
             if (GodsParsed < GodList.Count)
             {
-                MessageBox.Show("Could not parse all skins, exitting.");
+                MessageBox.Show("Could not parse all gods, exitting.");
                 Application.Exit();
             }
 
@@ -48,6 +48,14 @@ namespace Smite_Wardrobe_Self_Updating_Version.Forms
 
         private void Button_ShowAllSkins_Click(object sender, EventArgs e)
         {
+            AllAquiredSkinImages.Clear();
+
+            LoadingAllSkinsForm l = new LoadingAllSkinsForm();
+            l.ShowDialog();
+
+            if (ImagesLoaded < GetTotalSkinCount(GodList))
+                MessageBox.Show("Skin loading interrupted, not all skins will be shown.");
+
             AllSkinsForm _AllSkinsFormHandle = new AllSkinsForm();
             _AllSkinsFormHandle.ShowDialog();
         }
@@ -108,7 +116,7 @@ namespace Smite_Wardrobe_Self_Updating_Version.Forms
             saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             saveFileDialog1.RestoreDirectory = true;
 
-            saveFileDialog1.FileName = "Skin Config";
+            saveFileDialog1.FileName = "my skins";
 
             var result = saveFileDialog1.ShowDialog();
 
@@ -124,7 +132,6 @@ namespace Smite_Wardrobe_Self_Updating_Version.Forms
                             writer.Write("<" + g.Name + ">" + s.Name + "=" + s.Acquired + "~"+ Environment.NewLine);
                         }
                     }
-
                     writer.Close();
                 }
             }
@@ -143,7 +150,7 @@ namespace Smite_Wardrobe_Self_Updating_Version.Forms
             openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             openFileDialog1.RestoreDirectory = true;
 
-            openFileDialog1.FileName = "Skin Config";
+            openFileDialog1.FileName = "my skins";
 
             var result = openFileDialog1.ShowDialog();
 

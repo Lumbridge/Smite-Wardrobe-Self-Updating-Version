@@ -48,7 +48,7 @@
             this.ClientSize = new System.Drawing.Size(499, 376);
             this.Controls.Add(this.WardrobeFlowLayout);
             this.ForeColor = System.Drawing.Color.Black;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "AllSkinsForm";
             this.Text = "All Skins";
             this.Load += new System.EventHandler(this.AllSkinsForm_Load);
