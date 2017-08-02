@@ -8,6 +8,9 @@ using Smite_Wardrobe_Self_Updating_Version.Classes;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.Common;
 using static Smite_Wardrobe_Self_Updating_Version.Classes.ParseMethods;
 
+using System.Net;
+using HtmlAgilityPack;
+
 namespace Smite_Wardrobe_Self_Updating_Version.Forms
 {
     public partial class LoadingForm : Form

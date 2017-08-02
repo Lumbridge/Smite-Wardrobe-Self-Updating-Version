@@ -143,32 +143,37 @@ namespace Smite_Wardrobe_Self_Updating_Version.Forms
             /// Load Config File Function
             ///
 
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            openFileDialog1.DefaultExt = ".txt";
-            openFileDialog1.AddExtension = true;
-            openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            openFileDialog1.RestoreDirectory = true;
-
-            openFileDialog1.FileName = "my skins";
-
-            var result = openFileDialog1.ShowDialog();
-
-            if (result == DialogResult.OK)
+            try
             {
-                string[] lines = File.ReadAllLines(openFileDialog1.FileName);
+                OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-                Parallel.ForEach(lines, l =>
+                openFileDialog1.DefaultExt = ".txt";
+                openFileDialog1.AddExtension = true;
+                openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                openFileDialog1.RestoreDirectory = true;
+
+                openFileDialog1.FileName = "my skins";
+
+                var result = openFileDialog1.ShowDialog();
+
+                if (result == DialogResult.OK)
                 {
-                    string GodName = GetSubstringByString("<", ">", l);
-                    int GodIndex = GetGodIndexByName(GodList, GodName);
-                    string SkinName = GetSubstringByString(">", "=", l);
-                    int SkinIndex = GetSkinIndexByName(GodList[GodIndex].Skins, SkinName);
-                    string Aquired = GetSubstringByString("=", "~", l);
+                    string[] lines = File.ReadAllLines(openFileDialog1.FileName);
 
-                    GodList[GodIndex].Skins[SkinIndex].Acquired = bool.Parse(Aquired);
-                });
+                    Parallel.ForEach(lines, l =>
+                    {
+                        string GodName = GetSubstringByString("<", ">", l);
+                        int GodIndex = GetGodIndexByName(GodList, GodName);
+                        string SkinName = GetSubstringByString(">", "=", l);
+                        int SkinIndex = GetSkinIndexByName(GodList[GodIndex].Skins, SkinName);
+                        string Aquired = GetSubstringByString("=", "~", l);
+
+                        GodList[GodIndex].Skins[SkinIndex].Acquired = bool.Parse(Aquired);
+                    });
+                }
             }
+            catch { }
+            
         }
 
         private void UpdateLabels(God g)
