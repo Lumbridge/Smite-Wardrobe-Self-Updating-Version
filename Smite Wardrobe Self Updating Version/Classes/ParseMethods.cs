@@ -167,7 +167,7 @@ namespace Smite_Wardrobe_Self_Updating_Version.Classes
                                 innertext = "https://hydra-media.cursecdn.com/smite.gamepedia.com/b/b1/T_Anubis_DemonicPact_Stage3.png";
 
                             // add the image link to the skin object in the skin list
-                            Skins[counter].ImageLink = "https://smite.gamepedia.com" + innertext;
+                            Skins[counter].ImageLink = /*"https://smite.gamepedia.com" +*/ innertext;
 
                             // increment the counter so we don't override the skin link we just added
                             counter++;
